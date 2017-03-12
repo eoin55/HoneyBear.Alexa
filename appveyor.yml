@@ -4,6 +4,8 @@ configuration: Release
 environment:
   project:
     'HoneyBear.Alexa.Calculator'
+  runtime:
+    'win81-x64'
   # Don't report back to the mothership
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 assembly_info:
@@ -28,6 +30,6 @@ after_build:
 - ps: >-
     dotnet publish .\Src\$env:PROJECT -c $env:CONFIGURATION
 
-    Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\
+    Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
 artifacts:
-- path: Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\**\*.*
+- path: Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\**\*.*
