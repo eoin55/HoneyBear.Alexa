@@ -4,10 +4,6 @@ configuration: Release
 environment:
   project:
     'HoneyBear.Alexa.Calculator'
-  aws_access_key_id:
-    secure: rsxdnyvbXOnhIf9zKb3jjws8toB6G7VmWfwUMK+atvc=
-  aws_secret_access_key:
-    secure: o7bx7MJz5qRq3fa8Jy4Ofxv+Wk0ch01ADA78gRDMsPHa6d9fOf1XXuQ47ncfxc7X
   # Don't report back to the mothership
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 assembly_info:
@@ -22,14 +18,15 @@ before_build:
 
     $json = Get-Content .\Src\$env:PROJECT\project.json -raw | ConvertFrom-Json
 
-    $json.version = "$env:APPVEYOR_BUILD_VERSION"
+    $json.version = $env:APPVEYOR_BUILD_VERSION
 
     $json | ConvertTo-Json | Set-Content .\Src\$env:PROJECT\project.json
 build_script:
-- dotnet build ".\Src\$env:PROJECT" -c %CONFIGURATION%
+- ps: >-
+    dotnet build .\Src\$env:PROJECT -c $env:CONFIGURATION
 after_build:
 - ps: >-
-    dotnet publish ".\Src\$env:PROJECT" -c "$env:CONFIGURATION"
+    dotnet publish .\Src\$env:PROJECT -c $env:CONFIGURATION
 
     Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\
 artifacts:
