@@ -31,5 +31,7 @@ after_build:
     dotnet publish .\Src\$env:PROJECT -c $env:CONFIGURATION
 
     Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
+test: off
+deploy: off
 artifacts:
 - path: Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\**\*.*
