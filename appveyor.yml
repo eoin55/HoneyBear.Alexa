@@ -20,17 +20,17 @@ before_build:
 - ps: >-
     appveyor-retry dotnet restore -v Minimal
 
-    $json = Get-Content .\Src\HoneyBear.Alexa.Calculator\project.json -raw | ConvertFrom-Json
+    $json = Get-Content .\Src\$env:PROJECT\project.json -raw | ConvertFrom-Json
 
     $json.version = "$env:APPVEYOR_BUILD_VERSION"
 
-    $json | ConvertTo-Json | Set-Content .\Src\HoneyBear.Alexa.Calculator\project.json
+    $json | ConvertTo-Json | Set-Content .\Src\$env:PROJECT\project.json
 build_script:
-- dotnet build ".\Src\HoneyBear.HalClient" -c %CONFIGURATION%
+- dotnet build ".\Src\$env:PROJECT" -c %CONFIGURATION%
 after_build:
 - ps: >-
-    dotnet publish ".\Src\HoneyBear.Alexa.Calculator" -c "$env:CONFIGURATION"
+    dotnet publish ".\Src\$env:PROJECT" -c "$env:CONFIGURATION"
 
-    Copy-Item .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\HoneyBear.Alexa.Calculator.deps.json .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\
+    Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\
 artifacts:
-- path: artifacts\**\*.*
+- path: Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\**\*.*
