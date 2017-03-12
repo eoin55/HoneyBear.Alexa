@@ -31,7 +31,9 @@ after_build:
     dotnet publish .\Src\$env:PROJECT -c $env:CONFIGURATION -r $env:RUNTIME
 
     Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
+
+    Compress-Archive .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\* .\artifacts\$env:PROJECT.zip
 test: off
 deploy: off
 artifacts:
-- path: Src\%PROJECT%\bin\%CONFIGURATION%\netcoreapp1.0\%RUNTIME%\publish\**\*.*
+  artifacts\**\*.*
