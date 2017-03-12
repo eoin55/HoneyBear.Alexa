@@ -36,4 +36,5 @@ after_build:
 test: off
 deploy: off
 artifacts:
-- path: %PROJECT%.zip
+- path: "%PROJECT%.zip"
+  name: "%PROJECT%"
