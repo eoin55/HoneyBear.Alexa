@@ -1,0 +1,36 @@
+version: 1.0.{build}
+skip_tags: true
+configuration: Release
+environment:
+  project:
+    'HoneyBear.Alexa.Calculator'
+  aws_access_key_id:
+    secure: rsxdnyvbXOnhIf9zKb3jjws8toB6G7VmWfwUMK+atvc=
+  aws_secret_access_key:
+    secure: o7bx7MJz5qRq3fa8Jy4Ofxv+Wk0ch01ADA78gRDMsPHa6d9fOf1XXuQ47ncfxc7X
+  # Don't report back to the mothership
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- ps: >-
+    appveyor-retry dotnet restore -v Minimal
+
+    $json = Get-Content .\Src\HoneyBear.Alexa.Calculator\project.json -raw | ConvertFrom-Json
+
+    $json.version = "$env:APPVEYOR_BUILD_VERSION"
+
+    $json | ConvertTo-Json | Set-Content .\Src\HoneyBear.Alexa.Calculator\project.json
+build_script:
+- dotnet build ".\Src\HoneyBear.HalClient" -c %CONFIGURATION%
+after_build:
+- ps: >-
+    dotnet publish ".\Src\HoneyBear.Alexa.Calculator" -c "$env:CONFIGURATION"
+
+    Copy-Item .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\HoneyBear.Alexa.Calculator.deps.json .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\win10-x64\publish\
+artifacts:
+- path: artifacts\**\*.*
