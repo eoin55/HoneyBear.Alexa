@@ -32,7 +32,7 @@ after_build:
 
     Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
 
-    Compress-Archive .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\* $env:PROJECT.zip
+    Compress-Archive .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\* .\$env:PROJECT.zip
 test: off
 deploy: off
 artifacts:
