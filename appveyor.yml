@@ -32,10 +32,8 @@ after_build:
 
     Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
 
-    New-Item -ItemType Directory -Force -Path .\artifacts
-
-    Compress-Archive .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\* .\artifacts\$env:PROJECT.zip
+    Compress-Archive .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\* $env:PROJECT.zip
 test: off
 deploy: off
 artifacts:
-- path: artifacts\**\*.*
+- path: *.zip
