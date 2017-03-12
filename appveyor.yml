@@ -36,4 +36,4 @@ after_build:
 test: off
 deploy: off
 artifacts:
-  artifacts\**\*.*
+- path: artifacts\**\*.*
