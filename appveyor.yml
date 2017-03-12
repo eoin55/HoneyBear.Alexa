@@ -25,13 +25,13 @@ before_build:
     $json | ConvertTo-Json | Set-Content .\Src\$env:PROJECT\project.json
 build_script:
 - ps: >-
-    dotnet build .\Src\$env:PROJECT -c $env:CONFIGURATION
+    dotnet build .\Src\$env:PROJECT -c $env:CONFIGURATION -r $env:RUNTIME
 after_build:
 - ps: >-
-    dotnet publish .\Src\$env:PROJECT -c $env:CONFIGURATION
+    dotnet publish .\Src\$env:PROJECT -c $env:CONFIGURATION -r $env:RUNTIME
 
     Copy-Item .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:PROJECT.deps.json .\Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
 test: off
 deploy: off
 artifacts:
-- path: Src\$env:PROJECT\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\**\*.*
+- path: Src\%PROJECT%\bin\%CONFIGURATION%\netcoreapp1.0\%RUNTIME%\publish\**\*.*
