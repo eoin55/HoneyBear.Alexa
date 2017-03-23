@@ -5,6 +5,8 @@ configuration: Release
 environment:
   runtime:
     'win81-x64'
+  framework:
+    'netcoreapp1.1'
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -19,9 +21,9 @@ build_script:
 
     dotnet publish .\Src\HoneyBear.Alexa.Calculator -c $env:CONFIGURATION -r $env:RUNTIME
 
-    Copy-Item .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\HoneyBear.Alexa.Calculator.deps.json .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\
+    Copy-Item .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\HoneyBear.Alexa.Calculator.deps.json .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\publish\
 
-    Compress-Archive .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\netcoreapp1.0\$env:RUNTIME\publish\* .\HoneyBear.Alexa.Calculator.zip
+    Compress-Archive .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\publish\* .\HoneyBear.Alexa.Calculator.zip
 test: off
 artifacts:
 - path: HoneyBear.Alexa.Calculator.zip
