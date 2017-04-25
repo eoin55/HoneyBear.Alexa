@@ -4,9 +4,13 @@ image: Visual Studio 2017
 configuration: Release
 environment:
   runtime:
-    'win81-x64'
+    'rhel.7.4-x64'
   framework:
     'netcoreapp1.1'
+  KodiBaseUrl:
+    secure: 1CJ8lNL6etN/724AIt09AVKCiDCOPVQ6BICAprS2qYs=
+  KodiAuthHeader:
+    secure: Ph8i7AbpLNfOc07MP9B40wn54kF6Mda5tEUy5gPuFKY=
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -15,17 +19,33 @@ assembly_info:
   assembly_informational_version: '{version}'
 build_script:
 - ps: >-
+    Write-Host "Building HoneyBear.Alexa.Calculator..."
+
     dotnet restore .\Src\HoneyBear.Alexa.Calculator
 
     dotnet build .\Src\HoneyBear.Alexa.Calculator -c $env:CONFIGURATION -r $env:RUNTIME
 
     dotnet publish .\Src\HoneyBear.Alexa.Calculator -c $env:CONFIGURATION -r $env:RUNTIME
 
-    Copy-Item .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\HoneyBear.Alexa.Calculator.deps.json .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\publish\
-
     Compress-Archive .\Src\HoneyBear.Alexa.Calculator\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\publish\* .\HoneyBear.Alexa.Calculator.zip
+
+    Write-Host "Building HoneyBear.Alexa.Kodi..."
+
+    $path = ".\Src\HoneyBear.Alexa.Kodi\app.settings.production.json"
+    (Get-Content $path).Replace("KODI_BASE_URL", $env:KodiBaseUrl) | Set-Content $path
+    (Get-Content $path).Replace("KODI_AUTH_HEADER", $env:KodiAuthHeader) | Set-Content $path
+
+    dotnet restore .\Src\HoneyBear.Alexa.Kodi
+
+    dotnet build .\Src\HoneyBear.Alexa.Kodi -c $env:CONFIGURATION -r $env:RUNTIME
+
+    dotnet publish .\Src\HoneyBear.Alexa.Kodi -c $env:CONFIGURATION -r $env:RUNTIME
+
+    Compress-Archive .\Src\HoneyBear.Alexa.Kodi\bin\$env:CONFIGURATION\$env:FRAMEWORK\$env:RUNTIME\publish\* .\HoneyBear.Alexa.Kodi.zip
 test: off
 artifacts:
 - path: HoneyBear.Alexa.Calculator.zip
   name: HoneyBear.Alexa.Calculator
+- path: HoneyBear.Alexa.Kodi.zip
+  name: HoneyBear.Alexa.Kodi
 deploy: off

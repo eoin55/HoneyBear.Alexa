@@ -1,0 +1,6 @@
+{
+  "appSettings": {
+    "kodiBaseUrl": "KODI_BASE_URL",
+    "kodiAuthHeader": "KODI_AUTH_HEADER"
+  }
+}
