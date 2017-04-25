@@ -7,16 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="app.settings.development.json" />
     <None Remove="app.settings.json" />
-    <None Remove="app.settings.production.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="app.settings.development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="app.settings.production.json">
+    <Content Include="app.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

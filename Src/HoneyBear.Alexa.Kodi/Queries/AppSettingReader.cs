@@ -7,11 +7,7 @@ namespace HoneyBear.Alexa.Kodi.Queries
 {
     internal sealed class AppSettingReader
     {
-#if DEBUG
-        private const string FileName = "app.settings.development.json";
-#else
-        private const string FileName = "app.settings.production.json";
-#endif
+        private const string FileName = "app.settings.json";
         private readonly AppSettingsRoot _settings;
 
         public AppSettingReader()

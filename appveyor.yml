@@ -31,7 +31,7 @@ build_script:
 
     Write-Host "Building HoneyBear.Alexa.Kodi..."
 
-    $path = ".\Src\HoneyBear.Alexa.Kodi\app.settings.production.json"
+    $path = ".\Src\HoneyBear.Alexa.Kodi\app.settings.json"
 
     (Get-Content $path).Replace("KODI_BASE_URL", $env:KodiBaseUrl) | Set-Content $path
 
